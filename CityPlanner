@@ -1,0 +1,72 @@
+import tkinter as tk
+
+root = tk.Tk()
+root.title("Mini City Planner")
+
+city = tk.Canvas(root, width=600, height=450,
+                 bg="lightgreen")
+city.pack()
+
+building = tk.StringVar(value="House")
+
+options = ["House", "School", "Hospital", "Park",
+           "Horizontal Road", "Vertical Road",
+           "Diagonal Road"]
+
+for name in options:
+    tk.Radiobutton(root, text=name, variable=building,
+                   value=name).pack(side="left")
+
+def place(event):
+    x = event.x
+    y = event.y
+    name = building.get()
+
+    if name == "House":
+        city.create_rectangle(x-20, y-15, x+20, y+20,
+                              fill="orange")
+        city.create_polygon(x-25, y-15, x, y-40,
+                            x+25, y-15, fill="red")
+
+    elif name == "School":
+        city.create_rectangle(x-30, y-20, x+30, y+20,
+                              fill="lightblue")
+        city.create_text(x, y, text="SCHOOL")
+
+    elif name == "Hospital":
+        city.create_rectangle(x-25, y-20, x+25, y+20,
+                              fill="white", outline="red",
+                              width=3)
+        city.create_text(x, y, text="+", fill="red",
+                         font=("Arial", 22, "bold"))
+
+    elif name == "Park":
+        city.create_oval(x-25, y-25, x+25, y+25,
+                         fill="forestgreen")
+        city.create_text(x, y, text="PARK", fill="white")
+
+    elif name == "Horizontal Road":
+        city.create_line(0, y, 600, y,
+                         fill="gray", width=25)
+        city.create_line(0, y, 600, y,
+                         fill="white", width=2,
+                         dash=(15, 10))
+
+    elif name == "Vertical Road":
+        city.create_line(x, 0, x, 450,
+                         fill="gray", width=25)
+        city.create_line(x, 0, x, 450,
+                         fill="white", width=2,
+                         dash=(15, 10))
+
+    elif name == "Diagonal Road":
+        city.create_line(x-150, y+150, x+150, y-150,
+                         fill="gray", width=25)
+        city.create_line(x-150, y+150, x+150, y-150,
+                         fill="white", width=2,
+                         dash=(15, 10))
+
+city.bind("<Button-1>", place)
+
+root.mainloop()
+
